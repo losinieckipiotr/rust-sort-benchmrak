@@ -18,8 +18,6 @@ fn get_file_content(path: std::path::PathBuf) -> String {
 }
 
 fn main() {
-
-
   let args = CommandLineArguments::parse();
   let content = get_file_content(args.path);
 
