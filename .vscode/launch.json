@@ -20,8 +20,8 @@
         }
       },
       "args": [
-        "let",
-        "./src/main.rs"
+        "1000",
+        "10"
       ],
       "cwd": "${workspaceFolder}"
     },
