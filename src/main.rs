@@ -162,81 +162,54 @@ fn bubble_sort_2(vec: &mut Vec<i32>) {
 //   }
 // }
 
-enum SortType {
-  Bubble,
-  Bubble2,
-  Default,
+trait Sort {
+  fn name(&self) -> &str;
+  fn sort(&self, vec: &mut Vec<i32>);
 }
 
-// struct DefaultSort {
-//   name: String,
-//   vec_to_sort: Vec<i32>,
-//   sort_time: u128,
-//   done: bool,
-//   }
+struct DefaultSort {}
 
-// impl DefaultSort {
-//   fn new (max_number: usize) -> Self {
-//     DefaultSort {
-//       name: String::from("default_sort"),
-//       vec_to_sort: my_vec_factory(max_number),
-//       sort_time: 0,
-//       done: false,
-//     }
-//   }
+impl Sort for DefaultSort {
+  fn name(&self) -> &str {
+    "Default"
+  }
 
-//   fn run (&mut self, max_number: usize, seed: u64) {
-//     shuffle_my_vec(&mut self.vec_to_sort, seed);
-//     self.sort_time = measure_time_mili(Some(&self.name), || {
-//       self.vec_to_sort.sort();
-//     });
-//     self.done = true;
-//     let sorted = is_sorted(&self.vec_to_sort);
-//     if sorted {
-//       println!("Sorted !");
-//     } else {
-//       println!("Not sorted :(");
-//     }
-//     self.done = true;
-//   }
-// }
+  fn sort(&self, vec: &mut Vec<i32>) {
+    vec.sort();
+  }
+}
 
-// struct BubbleSort {
-//   name: String,
-//   sort_time: u128,
-//   done: bool,
-// }
+struct BubbleSort {}
 
-// impl BubbleSort {
-//   fn new () -> Self {
-//     BubbleSort {
-//       name: String::from("bubble_sort"),
-//       sort_time: 0,
-//       done: false,
-//     }
-//   }
+impl Sort for BubbleSort {
+  fn name(&self) -> &str {
+    "Bubble"
+  }
 
-//   fn run (&mut self, max_number: usize, seed: u64) {
-//     let mut my_vec = my_vec_factory(max_number);
-//     shuffle_my_vec(&mut my_vec, seed);
-//     self.sort_time = measure_time_mili(Some(&self.name), || {
-//       bubble_sort(&mut my_vec);
-//     });
-// }
+  fn sort(&self, vec: &mut Vec<i32>) {
+    bubble_sort(vec);
+  }
+}
 
-// struct TestOptions {
-//   max_number: usize,
-//   seed: u64,
-//   sort_type: SortType,
-// }
+struct BubbleSort2 {}
+
+impl Sort for BubbleSort2 {
+  fn name(&self) -> &str {
+    "BubbleSort2"
+  }
+
+  fn sort(&self, vec: &mut Vec<i32>) {
+    bubble_sort_2(vec);
+  }
+}
 
 fn test (
   max_number: usize,
   seed: u64,
-  sort_type: SortType,
-  verbose: bool
+  verbose: bool,
+  sorter: &impl Sort
 ) -> f64 {
-  let mut my_vec: Vec<i32> = Vec::new();
+  let mut my_vec = Vec::new();
 
   measure_time_mili("constructing vec", verbose, || {
     my_vec = my_vec_factory(max_number);
@@ -246,21 +219,19 @@ fn test (
     shuffle_my_vec(&mut my_vec, seed);
   });
 
-  let result = match sort_type {
-    SortType::Bubble => measure_time_mili("bubble_sort", verbose, || {
-       bubble_sort(&mut my_vec);
-    }),
-    SortType::Bubble2 => measure_time_mili("bubble_sort_2", verbose, || {
-      bubble_sort_2(&mut my_vec);
-    }),
-    SortType::Default => measure_time_mili("default_sort", verbose, || {
-      my_vec.sort();
-    }),
-  };
+   let result = measure_time_mili(
+    // Polymorphism
+    sorter.name(),
+    verbose,
+    || {
+      // Polymorphism
+      sorter.sort(&mut my_vec);
+    }
+  );
 
   let mut sorted = false;
   measure_time_mili("Checking", verbose, || {
-    sorted = is_sorted(&my_vec)
+    sorted = is_sorted(&my_vec);
   });
 
   if !sorted {
@@ -270,18 +241,17 @@ fn test (
   result
 }
 
-fn average_test (iterations: u32, max_number: usize, seed: u64, sort_type: SortType) {
+fn average_test (
+  iterations: u32,
+  max_number: usize,
+  seed: u64,
+  sorter: &impl Sort
+) {
   let mut results:Vec<f64> = Vec::new();
 
   for i in 0..iterations {
-    // println!("SortType::Bubble - iteration {}", i);
-
-
-    let result = match sort_type {
-      SortType::Bubble => test(max_number, seed + i as u64, SortType::Bubble, false),
-      SortType::Bubble2 => test(max_number, seed + i as u64, SortType::Bubble2, false),
-      SortType::Default => test(max_number, seed + i as u64, SortType::Default, false),
-    };
+    // Polymorphism
+    let result = test(max_number, seed + i as u64, false, sorter);
 
     // println!("result: {} ms", result);
 
@@ -293,11 +263,8 @@ fn average_test (iterations: u32, max_number: usize, seed: u64, sort_type: SortT
       let sum: f64 = results.iter().sum();
       let avg = sum / (iterations as f64);
 
-      match sort_type {
-        SortType::Bubble => println!("SortType::Bubble Avg: {} ms", avg),
-        SortType::Bubble2 => println!("SortType::Bubble2 Avg: {} ms", avg),
-        SortType::Default => println!("SortType::Default Avg: {} ms", avg),
-      }
+      // Polymorphism
+      println!("{} - avg: {} ms", sorter.name(), avg);
     }
   }
 }
@@ -309,7 +276,7 @@ fn main() {
   let seed = get_seconds();
   // let seed = 0;
 
-  average_test(iterations, max_number, seed, SortType::Default);
-  average_test(iterations, max_number, seed, SortType::Bubble);
-  average_test(iterations, max_number, seed, SortType::Bubble2);
+  average_test(iterations, max_number, seed, &DefaultSort {});
+  average_test(iterations, max_number, seed, &BubbleSort {});
+  average_test(iterations, max_number, seed, &BubbleSort2 {});
 }
