@@ -73,13 +73,10 @@ fn my_vec_factory(size: usize) -> Vec<i32> {
 //   println!("-----------------");
 // }
 
-fn shuffle_my_vec(vec: &mut Vec<i32>, seed: u64) -> &mut Vec<i32> {
+fn shuffle_my_vec(vec: &mut Vec<i32>, seed: u64) {
   let mut rng = SmallRng::seed_from_u64(seed);
   vec.shuffle(&mut rng);
-
-  vec
 }
-
 
 fn measure_time_mili<F>(start_msg: &str, verbose: bool, mut operation: F) -> f64
   where F: FnMut() {
@@ -112,39 +109,69 @@ fn is_sorted(vec: &Vec<i32>) -> bool {
 }
 
 fn bubble_sort(vec: &mut Vec<i32>) {
-  let max_index = vec.len() - 1;
+  let n = vec.len();
   let mut temp;
+  let mut j;
 
-  for _ in 0..max_index {
-    for j in 0..max_index {
+  for i in 0..n {
+    j = 0;
+    while j < n - 1 - i {
       if vec[j] > vec[j + 1] {
         temp = vec[j + 1];
         vec[j + 1] = vec[j];
         vec[j] = temp;
       }
+      j = j + 1;
     }
   }
 }
 
-fn bubble_sort_2(vec: &mut Vec<i32>) {
-  let max_index = vec.len() - 1;
-  let mut temp;
-  let mut change;
+fn selection_sort(vec: &mut Vec<i32>) {
+  let n = vec.len();
+  let mut i = 0;
+  let mut j;
+  let mut k;
 
-  for _ in 0..max_index {
-    change = false;
-    for j in 0..max_index {
-      if vec[j + 1] < vec[j] {
-        temp = vec[j];
-        vec[j] = vec[j + 1];
-        vec[j + 1] = temp;
-        change = true;
+  while i < n {
+    k = i;
+    j = i + 1;
+    while j < n {
+      if vec[j] < vec[k] {
+        k = j
+      };
+      j = j + 1;
+    }
+    let temp = vec[k];
+    vec[k] = vec[i];
+    vec[i] = temp;
+    i = i + 1;
+  }
+}
+
+fn insertion_sort(vec: &mut Vec<i32>) {
+  let mut key;
+  let mut j;
+  let len = vec.len();
+
+  let mut i = 1;
+  while i < len {
+    key = vec[i];
+    j = i;
+
+    loop {
+      if j > 0 && vec[j - 1] > key {
+        vec[j] = vec[j - 1];
+        j = j - 1;
+      } else {
+        break;
       }
     }
-    if !change {
-      break;
-    }
+    vec[j] = key;
+    i = i + 1;
   }
+}
+
+fn quick_sort(vec: &mut Vec<i32>) {
 }
 
 // fn compare_vectors(vec_a: &Vec<i32>, vec_b: &Vec<i32>) -> bool {
@@ -183,7 +210,7 @@ struct BubbleSort {}
 
 impl Sort for BubbleSort {
   fn name(&self) -> &str {
-    "Bubble"
+    "bubble"
   }
 
   fn sort(&self, vec: &mut Vec<i32>) {
@@ -191,15 +218,39 @@ impl Sort for BubbleSort {
   }
 }
 
-struct BubbleSort2 {}
+struct SelectionSort {}
 
-impl Sort for BubbleSort2 {
+impl Sort for SelectionSort {
   fn name(&self) -> &str {
-    "BubbleSort2"
+    "selection"
   }
 
   fn sort(&self, vec: &mut Vec<i32>) {
-    bubble_sort_2(vec);
+    selection_sort(vec);
+  }
+}
+
+struct InsertionSort {}
+
+impl Sort for InsertionSort {
+  fn name(&self) -> &str {
+    "insertion"
+  }
+
+  fn sort(&self, vec: &mut Vec<i32>) {
+    insertion_sort(vec);
+  }
+}
+
+struct QuickSort {}
+
+impl Sort for QuickSort {
+  fn name(&self) -> &str {
+    "quick"
+  }
+
+  fn sort(&self, vec: &mut Vec<i32>) {
+    quick_sort(vec);
   }
 }
 
@@ -235,7 +286,7 @@ fn test (
   });
 
   if !sorted {
-    panic!("Sorting error!");
+    panic!("vector is not sorted");
   }
 
   result
@@ -264,7 +315,7 @@ fn average_test (
       let avg = sum / (iterations as f64);
 
       // Polymorphism
-      println!("{} - avg: {} ms", sorter.name(), avg);
+      println!("Sort: {} - avg: {} ms, runs: {}", sorter.name(), avg, iterations);
     }
   }
 }
@@ -276,7 +327,9 @@ fn main() {
   let seed = get_seconds();
   // let seed = 0;
 
+  average_test(iterations, max_number, seed, &QuickSort {});
   average_test(iterations, max_number, seed, &DefaultSort {});
+  average_test(iterations, max_number, seed, &InsertionSort {});
+  average_test(iterations, max_number, seed, &SelectionSort {});
   average_test(iterations, max_number, seed, &BubbleSort {});
-  average_test(iterations, max_number, seed, &BubbleSort2 {});
 }
