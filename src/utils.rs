@@ -8,6 +8,7 @@ pub fn get_seconds() -> u64 {
     .as_secs()
 }
 
+// TODO rename
 pub fn my_vec_factory(size: usize) -> Vec<i32> {
   let mut vec: Vec<i32> = Vec::new();
   vec.reserve(size);
@@ -20,6 +21,7 @@ pub fn my_vec_factory(size: usize) -> Vec<i32> {
   vec
 }
 
+// TODO rename
 pub fn shuffle_my_vec(vec: &mut Vec<i32>, seed: u64) {
   let mut rng = SmallRng::seed_from_u64(seed);
   vec.shuffle(&mut rng);

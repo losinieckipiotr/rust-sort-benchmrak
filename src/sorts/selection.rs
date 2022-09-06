@@ -1,4 +1,5 @@
 use crate::sort::Sort;
+use crate::utils;
 
 fn selection_sort(vec: &mut Vec<i32>) {
   let n = vec.len();
@@ -12,12 +13,10 @@ fn selection_sort(vec: &mut Vec<i32>) {
     while j < n {
       if vec[j] < vec[k] {
         k = j
-      };
+      }
       j = j + 1;
     }
-    let temp = vec[k];
-    vec[k] = vec[i];
-    vec[i] = temp;
+    utils::swap(k, i, vec);
     i = i + 1;
   }
 }

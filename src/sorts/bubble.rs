@@ -2,16 +2,13 @@ use crate::sort::Sort;
 
 pub fn bubble_sort(vec: &mut Vec<i32>) {
   let n = vec.len();
-  let mut temp;
   let mut j;
 
   for i in 0..n {
     j = 0;
     while j < n - 1 - i {
       if vec[j] > vec[j + 1] {
-        temp = vec[j + 1];
-        vec[j + 1] = vec[j];
-        vec[j] = temp;
+        crate::utils::swap(j, j + 1, vec);
       }
       j = j + 1;
     }

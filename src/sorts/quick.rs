@@ -34,7 +34,7 @@ fn quick_sort_impl(vec: &mut Vec<i32>, lo: i32, hi: i32) {
   }
 
   // Partition array and get the pivot index
-  let p = crate::quick::partition(vec, lo, hi);
+  let p = partition(vec, lo, hi);
 
   // Sort the two partitions
   quick_sort_impl(vec, lo, p - 1); // Left side of pivot
