@@ -1,5 +1,5 @@
 use crate::sort::Sort;
-use crate::utils;
+use crate::utils::swap;
 
 fn partition_2(vec: &mut Vec<i32>, lo: i32, hi: i32) -> i32 {
   // Divides array into two partitions
@@ -38,7 +38,8 @@ fn partition_2(vec: &mut Vec<i32>, lo: i32, hi: i32) -> i32 {
     }
 
     // Swap the elements at the left and right indices
-    utils::swap(i as usize, j as usize, vec);
+    // vec.swap(i as usize, j as usize);
+    swap(i as usize, j as usize, vec);
   }
 }
 

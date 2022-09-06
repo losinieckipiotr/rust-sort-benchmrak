@@ -55,11 +55,11 @@ fn test(
   let mut my_vec = Vec::new();
 
   utils::measure_time_mili("constructing vec", verbose, || {
-    my_vec = utils::my_vec_factory(max_number as usize);
+    my_vec = utils::test_vector_factory(max_number as usize);
   });
 
   utils::measure_time_mili("shuffling vec", verbose, || {
-    utils::shuffle_my_vec(&mut my_vec, seed);
+    utils::shuffle_vec(&mut my_vec, seed);
   });
 
   let result = utils::measure_time_mili(

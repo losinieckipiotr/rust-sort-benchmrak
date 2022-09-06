@@ -1,5 +1,5 @@
 use crate::sort::Sort;
-use crate::utils;
+use crate::utils::swap;
 
 pub fn partition(vec: &mut Vec<i32>, lo: i32, hi: i32) -> i32 {
   // Divides array into two partitions
@@ -14,7 +14,8 @@ pub fn partition(vec: &mut Vec<i32>, lo: i32, hi: i32) -> i32 {
       // Move the temporary pivot index forward
       i = i + 1;
       // Swap the current element with the element at the temporary pivot index
-      utils::swap(i as usize, j as usize, vec);
+      // vec.swap(i as usize, j as usize);
+      swap(i as usize, j as usize, vec);
     }
   }
 
@@ -22,8 +23,8 @@ pub fn partition(vec: &mut Vec<i32>, lo: i32, hi: i32) -> i32 {
   // Move the pivot element to the correct pivot position (between the smaller and larger elements)
   i = i + 1;
   // swap A[i] with A[hi]
-  utils::swap(i as usize, hi as usize, vec);
-
+  // vec.swap(i as usize, hi as usize);
+  swap(i as usize, hi as usize, vec);
   i
 }
 

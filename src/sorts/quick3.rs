@@ -1,5 +1,5 @@
 use crate::sort::Sort;
-use crate::utils;
+use crate::utils::swap;
 
 fn partition_3(vec: &mut Vec<i32>, start: i32, end: i32) -> i32 {
   let pivot = vec[start as usize];
@@ -13,7 +13,7 @@ fn partition_3(vec: &mut Vec<i32>, start: i32, end: i32) -> i32 {
 
   // Giving pivot element its correct position
   let pivot_index = start + count;
-  utils::swap(pivot_index as usize, start as usize, vec);
+  vec.swap(pivot_index as usize, start as usize);
 
   // Sorting left and right parts of the pivot element
   let mut i = start;
@@ -27,8 +27,8 @@ fn partition_3(vec: &mut Vec<i32>, start: i32, end: i32) -> i32 {
       j = j - 1;
     }
     if i < pivot_index && j > pivot_index {
-      utils::swap(i as usize, j as usize, vec);
-
+      // vec.swap(i as usize, j as usize);
+      swap(i as usize, j as usize, vec);
       i = i + 1;
       j = j - 1;
     }

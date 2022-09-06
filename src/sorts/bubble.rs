@@ -1,4 +1,5 @@
 use crate::sort::Sort;
+use  crate::utils::swap;
 
 pub fn bubble_sort(vec: &mut Vec<i32>) {
   let n = vec.len();
@@ -8,7 +9,8 @@ pub fn bubble_sort(vec: &mut Vec<i32>) {
     j = 0;
     while j < n - 1 - i {
       if vec[j] > vec[j + 1] {
-        crate::utils::swap(j, j + 1, vec);
+        // vec.swap(j, j + 1);
+        swap(j, j + 1, vec);
       }
       j = j + 1;
     }

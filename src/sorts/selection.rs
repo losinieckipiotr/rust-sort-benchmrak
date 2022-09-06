@@ -1,5 +1,5 @@
 use crate::sort::Sort;
-use crate::utils;
+use crate::utils::swap;
 
 fn selection_sort(vec: &mut Vec<i32>) {
   let n = vec.len();
@@ -16,7 +16,8 @@ fn selection_sort(vec: &mut Vec<i32>) {
       }
       j = j + 1;
     }
-    utils::swap(k, i, vec);
+    // vec.swap(k, i);
+    swap(k, i, vec);
     i = i + 1;
   }
 }
