@@ -17,7 +17,7 @@ pub fn bubble_sort(vec: &mut Vec<i32>) {
   }
 }
 
-pub struct BubbleSort {}
+pub struct BubbleSort;
 
 impl Sort for BubbleSort {
   fn name(&self) -> &str {

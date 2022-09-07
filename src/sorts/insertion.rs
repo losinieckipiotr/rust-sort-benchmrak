@@ -23,7 +23,7 @@ fn insertion_sort(vec: &mut Vec<i32>) {
   }
 }
 
-pub struct InsertionSort {}
+pub struct InsertionSort;
 
 impl Sort for InsertionSort {
   fn name(&self) -> &str {

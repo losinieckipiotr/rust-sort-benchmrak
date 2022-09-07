@@ -22,7 +22,7 @@ fn selection_sort(vec: &mut Vec<i32>) {
   }
 }
 
-pub struct SelectionSort {}
+pub struct SelectionSort;
 
 impl Sort for SelectionSort {
   fn name(&self) -> &str {

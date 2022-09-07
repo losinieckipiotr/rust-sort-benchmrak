@@ -42,11 +42,11 @@ fn quick_sort_impl(vec: &mut Vec<i32>, lo: i32, hi: i32) {
   quick_sort_impl(vec, p + 1, hi); // Right side of pivot
 }
 
-fn quick_sort(vec: &mut Vec<i32>) {
+pub fn quick_sort(vec: &mut Vec<i32>) {
   quick_sort_impl(vec, 0, (vec.len() - 1) as i32);
 }
 
-pub struct QuickSort {}
+pub struct QuickSort;
 
 impl Sort for QuickSort {
   fn name(&self) -> &str {
