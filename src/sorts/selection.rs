@@ -1,7 +1,6 @@
-use crate::sort::Sort;
 use crate::utils::swap;
 
-fn selection_sort(vec: &mut Vec<i32>) {
+pub fn selection_sort(vec: &mut Vec<i32>) {
   let n = vec.len();
   let mut i = 0;
   let mut j;
@@ -19,16 +18,5 @@ fn selection_sort(vec: &mut Vec<i32>) {
     // vec.swap(k, i);
     swap(k, i, vec);
     i = i + 1;
-  }
-}
-
-pub struct SelectionSort;
-
-impl Sort for SelectionSort {
-  fn name(&self) -> &str {
-    "selection"
-  }
-  fn sort(&self, vec: &mut Vec<i32>) {
-    selection_sort(vec);
   }
 }

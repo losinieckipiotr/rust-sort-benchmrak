@@ -1,6 +1,4 @@
-use crate::sort::Sort;
-
-fn insertion_sort(vec: &mut Vec<i32>) {
+pub fn insertion_sort(vec: &mut Vec<i32>) {
   let mut key;
   let mut j;
   let len = vec.len();
@@ -20,17 +18,5 @@ fn insertion_sort(vec: &mut Vec<i32>) {
     }
     vec[j] = key;
     i = i + 1;
-  }
-}
-
-pub struct InsertionSort;
-
-impl Sort for InsertionSort {
-  fn name(&self) -> &str {
-    "insertion"
-  }
-
-  fn sort(&self, vec: &mut Vec<i32>) {
-    insertion_sort(vec);
   }
 }

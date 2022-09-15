@@ -1,4 +1,3 @@
-use crate::sort::Sort;
 use  crate::utils::swap;
 
 pub fn bubble_sort(vec: &mut Vec<i32>) {
@@ -14,17 +13,5 @@ pub fn bubble_sort(vec: &mut Vec<i32>) {
       }
       j = j + 1;
     }
-  }
-}
-
-pub struct BubbleSort;
-
-impl Sort for BubbleSort {
-  fn name(&self) -> &str {
-    "bubble"
-  }
-
-  fn sort(&self, vec: &mut Vec<i32>) {
-    bubble_sort(vec);
   }
 }

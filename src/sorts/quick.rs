@@ -1,7 +1,6 @@
-use crate::sort::Sort;
 use crate::utils::swap;
 
-pub fn partition(vec: &mut Vec<i32>, lo: i32, hi: i32) -> i32 {
+fn partition(vec: &mut Vec<i32>, lo: i32, hi: i32) -> i32 {
   // Divides array into two partitions
   let pivot = vec[hi as usize]; // Choose the last element as the pivot
 
@@ -44,16 +43,4 @@ fn quick_sort_impl(vec: &mut Vec<i32>, lo: i32, hi: i32) {
 
 pub fn quick_sort(vec: &mut Vec<i32>) {
   quick_sort_impl(vec, 0, (vec.len() - 1) as i32);
-}
-
-pub struct QuickSort;
-
-impl Sort for QuickSort {
-  fn name(&self) -> &str {
-    "quick"
-  }
-
-  fn sort(&self, vec: &mut Vec<i32>) {
-    quick_sort(vec);
-  }
 }

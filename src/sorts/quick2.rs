@@ -1,4 +1,3 @@
-use crate::sort::Sort;
 use crate::utils::swap;
 
 fn partition_2(vec: &mut Vec<i32>, lo: i32, hi: i32) -> i32 {
@@ -52,18 +51,6 @@ fn quick_sort_impl_2(vec: &mut Vec<i32>, lo: i32, hi: i32) {
   }
 }
 
-fn quick_sort_2(vec: &mut Vec<i32>) {
+pub fn quick_sort_2(vec: &mut Vec<i32>) {
   quick_sort_impl_2(vec, 0, (vec.len() - 1) as i32);
-}
-
-pub struct QuickSort2;
-
-impl Sort for QuickSort2 {
-  fn name(&self) -> &str {
-    "quick2"
-  }
-
-  fn sort(&self, vec: &mut Vec<i32>) {
-    quick_sort_2(vec);
-  }
 }
