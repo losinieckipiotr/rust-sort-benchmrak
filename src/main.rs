@@ -51,6 +51,8 @@ fn get_options() -> Options {
   }
 }
 
+#[allow(dead_code)]
+
 #[derive(Debug, Copy, Clone)]
 struct SortResult<'a> {
   id: i32,
@@ -152,18 +154,4 @@ fn main() {
   .as_secs();
 
   println!("operation took {} seconds", operation_time);
-
-  // let vec: Vec<i32> = vec!(101, 102, 103);
-  // let s: &str = "123";
-  // let ptr: *const u8 = s.as_ptr();
-  // let ptr_vec: *const i32 = vec.as_ptr();
-
-  // unsafe {
-  //   println!("{}", *ptr.offset(1) as char);
-  //   println!("{}", *ptr.offset(2) as char);
-
-  //   println!("{}", *ptr_vec);
-  //   println!("{}", *ptr_vec.offset(1));
-  //   println!("{}", *ptr_vec.offset(2));
-  // }
 }

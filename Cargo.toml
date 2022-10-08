@@ -1,5 +1,5 @@
 [package]
-name = "hello-rust"
+name = "rust-sort-benchmrak"
 version = "0.1.0"
 edition = "2021"
 authors = ["Piotr Łosiniecki"]
